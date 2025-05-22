@@ -1,0 +1,83 @@
+No dia 19, foi identificado um problema durante a montagem do sensor de efeito Hall. Devido a um descuido, alguns pinos foram conectados de forma incorreta, o que comprometeu o funcionamento do circuito. Durante os testes iniciais, observou-se que o sensor detectava continuamente o polo norte, mesmo quando o polo sul do ímã era aproximado. Diante dessa anomalia, optou-se por desmontar e remontar o circuito, corrigindo a posição dos pinos e revisando trechos do código-fonte. Após essas intervenções, o sistema passou a apresentar um funcionamento mais adequado, com resposta coerente às variações de polaridade do campo magnético.
+
+Ainda no mesmo dia, o professor apresentou uma abordagem alternativa para a implementação do efeito Hall, sem a utilização de um sensor comercial pronto. Ele explicou que é possível simular esse efeito utilizando materiais condutores, como o alumínio, que, quando expostos a um campo magnético e a uma corrente elétrica, geram uma diferença de potencial transversal — princípio fundamental do efeito Hall. A explicação reforçou o entendimento teórico do fenômeno e ampliou as possibilidades de experimentação prática com materiais acessíveis.
+
+
+No dia 22/05, revisei e aperfeiçoei o código para melhorar a captura da intensidade do campo magnético. O programa em questão controla um sensor de efeito Hall (KY-024), utilizado para detectar a presença e a polaridade de um ímã (Norte ou Sul). A leitura do sensor é feita através de um pino digital para identificar a presença do ímã e de um pino analógico para medir a intensidade do campo magnético. Com base nessas leituras, o código ajusta o comportamento de dois LEDs: um acende quando o ímã é detectado, e o outro tem sua intensidade de brilho ajustada de acordo com o valor do campo magnético registrado.
+
+Estrutura do Código
+
+    Definição de Pinos:
+
+        ky024A (A0): Pino analógico utilizado para ler o sinal do sensor KY-024, o qual reflete a intensidade do campo magnético.
+
+        ky024D (9): Pino digital utilizado para verificar a presença do ímã, por meio do sensor KY-024.
+
+        ledA (3) e ledD (13): Pinos de controle para os LEDs. O pino ledA pode ser controlado via PWM, permitindo o ajuste do brilho, enquanto o pino ledD é utilizado para um controle digital simples (ligar/desligar).
+
+    Variáveis:
+
+        valorAnalogico: Armazena a leitura do valor analógico, que representa a intensidade do campo magnético detectado.
+
+        valorDigital: Armazena o valor lido do pino digital, indicando se o ímã está presente.
+
+        polaridade: Variável que armazena a polaridade do campo magnético (Norte ou Sul).
+
+        novoValorAnalogico: Valor do sinal analógico após o mapeamento para controle do brilho do LED via PWM.
+
+        mediaValorAnalogico: Variável que calcula a média das leituras analógicas, com o objetivo de suavizar as variações do sinal.
+
+        numAmostras: Define o número de amostras utilizadas para calcular a média, o que aumenta a precisão das leituras analógicas.
+
+Função de Setup
+
+A função setup() configura os pinos e inicializa a comunicação serial. Especificamente, são realizados os seguintes procedimentos:
+
+    Serial.begin(9600): Inicializa a comunicação serial, permitindo o monitoramento dos valores no terminal serial.
+
+    pinMode(): Configura os pinos de entrada (para o sensor digital) e de saída (para os LEDs) de acordo com suas respectivas funções.
+
+Função de Loop
+
+A função loop() executa repetidamente e realiza as seguintes ações:
+
+    Leitura Digital:
+
+        valorDigital = digitalRead(ky024D) lê o valor do pino digital para determinar se o ímã está próximo. Caso o valor seja HIGH, significa que o ímã foi detectado e o LED correspondente (ledA) será aceso.
+
+    Leitura Analógica:
+
+        O código lê múltiplas amostras do pino analógico (analogRead(ky024A)) e calcula a média dos valores. Essa técnica ajuda a suavizar variações rápidas e proporciona leituras mais estáveis.
+
+        O valor médio calculado é armazenado na variável mediaValorAnalogico.
+
+    Detecção de Polaridade:
+
+        O valor analógico lido é comparado com limites pré-estabelecidos (510 para o Norte e 490 para o Sul). Esses limites foram ajustados para aumentar a sensibilidade da detecção.
+
+        Dependendo do valor obtido, a variável polaridade é atualizada para 1 (Norte), -1 (Sul) ou 0 (nenhuma polaridade detectada).
+
+    Controle do LED:
+
+        O valor analógico é mapeado para um intervalo de PWM (0 a 255), o que permite o controle do brilho do LED. Isso é feito por meio da função analogWrite(ledA, novoValorAnalogico).
+
+    Exibição dos Resultados:
+
+        O monitor serial exibe os valores lidos do sensor, incluindo o valor analógico e a polaridade detectada.
+
+    Atraso:
+
+        O programa aguarda 50 milissegundos entre as iterações para melhorar a resposta em tempo real e evitar leituras excessivamente rápidas.
+
+Diferenças e Adições
+
+Em comparação com a versão original do código, o código atualizado mantém a mesma estrutura funcional, mas com melhorias na precisão e organização do código. Não há alterações significativas no fluxo lógico, mas os comentários foram aprimorados para proporcionar uma explicação mais clara sobre o funcionamento do sistema.
+Parte Adicionada ou Melhorada
+
+    Média das Leituras Analógicas: O código agora calcula a média de múltiplas amostras analógicas (definidas pela variável numAmostras), o que aumenta a precisão e suaviza as leituras.
+
+    Controle PWM para o LED: O código ajusta o brilho do LED (ledA) com base na intensidade do campo magnético lido pelo sensor, mapeando o valor analógico para o intervalo de PWM (0 a 255).
+
+Conclusão
+
+Este código tem como objetivo realizar uma leitura contínua e precisa do sensor de efeito Hall KY-024 para detectar a presença e a polaridade de um ímã. Ele utiliza leituras digitais (para presença) e analógicas (para intensidade e polaridade), além de controlar LEDs para indicar essas informações. A adição da média de leituras analógicas e o controle PWM do LED aumentam a precisão do sistema e proporcionam uma resposta mais suave e informativa visualmente.
