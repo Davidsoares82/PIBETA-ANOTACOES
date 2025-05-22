@@ -1,0 +1,78 @@
+
+    2 bobinas (você pode enrolar fio de cobre esmaltado)
+
+    1 ou mais ímãs
+
+    1 microcontrolador (ex: Arduino Uno)
+
+    1 buzzer ou LED (para o alarme)
+
+    Resistores e capacitores (opcional, para filtragem)
+
+    Fonte de alimentação
+
+⚙️ Funcionamento do sistema
+
+    Montagem: Coloque as duas bobinas a uma distância conhecida (por exemplo, 0,5 m).
+
+    Movimento do carro com ímã: O ímã passa pelas bobinas uma de cada vez.
+
+    Detecção de pulsos: O microcontrolador detecta os picos de tensão causados pela indução nas bobinas.
+
+    Cálculo da velocidade:
+    Velocidade=Distancia entre bobinas ÷ Tempo entre pulsos
+   
+
+    Alarme: Se a velocidade for maior que o limite definido, o alarme (buzzer ou LED) é acionado.
+
+🖥️ Exemplo de código básico (Arduino)
+
+Assumindo que você usa pinos analógicos ou digitais para detectar pulsos de tensão das bobinas:
+
+const int bobina1 = A0;
+const int bobina2 = A1;
+const int buzzer = 4;
+
+unsigned long tempo1 = 0;
+unsigned long tempo2 = 0;
+
+float distancia = 0.5; // metros
+float velocidade = 0;
+float limite = 2.0; // m/s
+
+void setup() {
+  pinMode(buzzer, OUTPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  int leitura1 = analogRead(bobina1);
+  int leitura2 = analogRead(bobina2);
+
+  if (leitura1 > 500) { // ajuste o valor conforme o teste real
+    tempo1 = millis();
+  }
+
+  if (leitura2 > 500) {
+    tempo2 = millis();
+    float tempo = (tempo2 - tempo1) / 1000.0; // segundos
+    velocidade = distancia / tempo;
+
+    Serial.print("Velocidade: ");
+    Serial.println(velocidade);
+
+    if (velocidade > limite) {
+      digitalWrite(buzzer, HIGH); // aciona o alarme
+    } else {
+      digitalWrite(buzzer, LOW);
+    }
+  }
+}
+
+⚠️ Dicas técnicas:
+
+    Use diodos nos terminais das bobinas para evitar picos de tensão no Arduino.
+
+    Adicione resistores pull-down ou capacitores de filtro para limpar o sinal.
+
+    A tensão gerada pela bobina dependerá da velocidade do ímã — mais rápida = mais forte.
