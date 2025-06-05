@@ -29,44 +29,111 @@
 
 Assumindo que você usa pinos analógicos ou digitais para detectar pulsos de tensão das bobinas:
 
+// Definição dos pinos
 const int bobina1 = A0;
 const int bobina2 = A1;
-const int buzzer = 4;
 
+// Variáveis de tempo
 unsigned long tempo1 = 0;
 unsigned long tempo2 = 0;
+const unsigned long timeout = 6000; // Tempo limite para a segunda detecção (em ms)
 
-float distancia = 0.5; // metros
-float velocidade = 0;
-float limite = 2.0; // m/s
+// Parâmetros do sistema
+const float distancia = 0.5; // Distância entre as bobinas (em metros)
+const float limiteVelocidade = 0.17; // Limite de velocidade (m/s)
+
+// Controle de estado
+bool detectadoBobina1 = false;
+
+// Limite de detecção ajustado
+const int limiteDeteccao = 280;
 
 void setup() {
-  pinMode(buzzer, OUTPUT);
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.println("🚀 Sistema iniciado...");
 }
 
 void loop() {
-  int leitura1 = analogRead(bobina1);
-  int leitura2 = analogRead(bobina2);
+  // Leitura das bobinas com filtro
+  int leitura1 = mediaFiltrada(bobina1);
+  int leitura2 = mediaFiltrada(bobina2);
 
-  if (leitura1 > 500) { // ajuste o valor conforme o teste real
+  // Detecta a primeira bobina
+  if (leitura1 > limiteDeteccao && !detectadoBobina1) {
     tempo1 = millis();
+    detectadoBobina1 = true;
+    Serial.println("✅ Bobina 1 detectada.");
   }
 
-  if (leitura2 > 500) {
+  // Detecta a segunda bobina após a primeira
+  if (leitura2 > limiteDeteccao && detectadoBobina1) {
     tempo2 = millis();
-    float tempo = (tempo2 - tempo1) / 1000.0; // segundos
-    velocidade = distancia / tempo;
 
-    Serial.print("Velocidade: ");
-    Serial.println(velocidade);
+    float tempoDecorrido = (tempo2 - tempo1) / 1000.0; // em segundos
 
-    if (velocidade > limite) {
-      digitalWrite(buzzer, HIGH); // aciona o alarme
+    if (tempoDecorrido > 0.01) { // Garante tempo válido (mínimo 10ms)
+      float velocidade = distancia / tempoDecorrido;
+
+      // Filtra velocidades absurdas (>100 m/s é considerado erro)
+      if (velocidade > 100) {
+        Serial.println("❌ Velocidade impossível detectada. Ignorando.");
+      } else {
+        Serial.print("⚙️ Velocidade calculada: ");
+        Serial.print(velocidade, 3);
+        Serial.println(" m/s");
+
+        if (velocidade > limiteVelocidade) {
+          Serial.println("🚨 Velocidade ACIMA do limite PERMITIDO!");
+        } else {
+          Serial.println("✅ Velocidade dentro do limite.");
+        }
+      }
     } else {
-      digitalWrite(buzzer, LOW);
+      Serial.println("⚠️ Erro: tempo muito pequeno. Desconsiderando.");
+    }
+
+    detectadoBobina1 = false;
+    Serial.println("⏳ Pronto para nova medição.\n");
+  }
+
+  // Cancela se exceder o tempo
+  if (detectadoBobina1 && (millis() - tempo1 > timeout)) {
+    detectadoBobina1 = false;
+    Serial.println("⌛ Tempo excedido. Medição cancelada.\n");
+  }
+
+  delay(50); // Pequena pausa para estabilidade
+}
+
+// Função com filtro para média de leituras, removendo ruídos
+int mediaFiltrada(int pino) {
+  const int numLeituras = 20;
+  int leituras[numLeituras];
+
+  // Faz as leituras
+  for (int i = 0; i < numLeituras; i++) {
+    leituras[i] = analogRead(pino);
+    delay(2);
+  }
+
+  // Ordena as leituras
+  for (int i = 0; i < numLeituras - 1; i++) {
+    for (int j = i + 1; j < numLeituras; j++) {
+      if (leituras[j] < leituras[i]) {
+        int temp = leituras[i];
+        leituras[i] = leituras[j];
+        leituras[j] = temp;
+      }
     }
   }
+
+  // Descarta os 5 menores e os 5 maiores para remover ruído
+  long soma = 0;
+  for (int i = 5; i < numLeituras - 5; i++) {
+    soma += leituras[i];
+  }
+
+  return soma / (numLeituras - 10);
 }
 
 ⚠️ Dicas técnicas:
