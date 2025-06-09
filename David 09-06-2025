@@ -1,1 +1,7 @@
-No dia 09 de jun comecei a dar inicio ao meu projeto do
+No dia 09 de junho, foi iniciado o planejamento para o desenvolvimento de um protótipo de sensor baseado no efeito Hall. A primeira etapa consistiu na concepção e montagem preliminar da estrutura física que servirá como suporte para os componentes do sistema. Para tal, foram utilizados materiais como madeira e alumínio, dispostos em formato de cruz ("+"). A fixação inicial foi realizada com fita adesiva, de modo a permitir ajustes posteriores durante a fase de testes e validação.
+
+O principal objetivo dessa etapa foi construir uma base física estável e funcional que possibilite a correta disposição do sensor Hall e dos ímãs permanentes, visando à realização de testes de detecção de campo magnético. Paralelamente, iniciou-se o estudo sobre as possíveis formas de interligação elétrica entre os componentes, incluindo o sensor Hall, a fonte de alimentação e o microcontrolador responsável pela leitura e processamento dos dados.
+
+Durante o desenvolvimento inicial, foram identificadas algumas dificuldades, especialmente no que diz respeito à obtenção de certos componentes eletrônicos, em particular semicondutores adequados à aplicação desejada. A escassez de informações técnicas específicas e a baixa disponibilidade no mercado local representaram obstáculos significativos nesta fase do projeto.
+
+As próximas etapas previstas incluem a fixação definitiva da estrutura, a integração dos componentes eletrônicos ao sistema e a realização de testes práticos com o objetivo de avaliar a sensibilidade e a precisão do sensor na detecção de variações no campo magnético.
