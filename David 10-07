@@ -1,0 +1,13 @@
+Durante a etapa experimental de desenvolvimento de um protótipo baseado no efeito Hall, realizamos medições em conjunto com o professor utilizando um osciloscópio de armazenamento digital da Keysight. O objetivo principal foi observar a tensão Hall gerada em resposta à aplicação de um campo magnético perpendicular ao fluxo de corrente elétrica em um condutor. Para complementar a análise, utilizamos um multímetro da Agilent com o intuito de obter medidas mais precisas da tensão Hall. O material condutor empregado no protótipo foi o alumínio, escolhido por sua disponibilidade e facilidade de manuseio em bancada.
+
+Dificuldades encontradas
+
+A baixa sensibilidade do alumínio ao efeito Hall, devido à sua elevada densidade de portadores de carga, dificultou a detecção de variações mensuráveis na tensão Hall.
+
+A tensão Hall gerada foi extremamente pequena (na ordem de microvolts), o que tornou o sinal suscetível a ruídos elétricos e interferências externas, mesmo com o uso de equipamentos de alta precisão.
+
+Houve dificuldades na estabilização térmica do sistema, uma vez que a resistividade do alumínio varia com a temperatura, o que afetou a reprodutibilidade dos resultados.
+
+A geometria e o posicionamento dos contatos influenciaram significativamente na leitura do sinal, exigindo ajustes frequentes para garantir a simetria do dispositivo.
+
+O osciloscópio, apesar de sua alta resolução, teve limitações na detecção contínua de sinais tão baixos sem amplificação prévia.
