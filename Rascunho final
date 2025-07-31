@@ -1,0 +1,28 @@
+Construção e emprego de sensores de efeito Hall acionado por Arduino
+Este trabalho apresenta o desenvolvimento e a aplicação de um protótipo funcional de sensor baseado no efeito Hall, utilizando materiais acessíveis e um microcontrolador Arduino. O objetivo principal foi permitir a detecção de campos magnéticos e análise de suas polaridades, aplicando conceitos da física moderna e da eletrônica embarcada em um projeto experimental acessível para ambientes educacionais.
+
+O efeito Hall é um fenômeno físico descoberto por Edwin Hall em 1879, o qual descreve a geração de uma diferença de potencial elétrico transversal a um condutor percorrido por corrente elétrica, quando este é submetido a um campo magnético perpendicular ao fluxo de elétrons. Essa diferença de potencial, chamada tensão Hall, é proporcional à intensidade do campo magnético aplicado, sendo a base de funcionamento de diversos sensores utilizados em sistemas industriais, automotivos e médicos. Com o avanço da microeletrônica, sensores baseados neste princípio passaram a ser amplamente integrados em dispositivos de controle de rotação, posicionamento, velocidade e até mesmo corrente elétrica.
+
+Com o intuito de tornar o estudo e a prática acessíveis, o protótipo foi desenvolvido com uma base de madeira e fios de alumínio, compondo a parte estrutural e condutora do circuito. Embora o alumínio não seja um semicondutor adequado para gerar um efeito Hall significativo, sua escolha foi estratégica para fins didáticos, pois permite realizar testes e observar o comportamento de um circuito em ambiente controlado. A montagem foi feita com fita isolante e com o auxílio de furos na base de madeira para acomodar os fios e manter o circuito estável.
+
+Foi utilizado o sensor magnético KY-024, que combina um sensor de efeito Hall analógico com um comparador digital, permitindo detectar não apenas a presença de um campo magnético, mas também sua intensidade e polaridade. O pino digital do KY-024 indica a presença de um ímã (alta ou baixa), enquanto o pino analógico fornece uma tensão proporcional ao campo magnético detectado. Para fins de visualização, o sistema foi acoplado a dois LEDs: um LED que acende quando um ímã é detectado, e outro LED cujo brilho varia de acordo com a intensidade do campo magnético, sendo controlado via PWM pelo Arduino.
+
+Durante o desenvolvimento do projeto, diversas etapas foram cumpridas. Inicialmente, foi realizado o planejamento estrutural, considerando o posicionamento ideal do sensor em relação ao ímã permanente. Em seguida, foram feitas montagens e testes, com algumas correções de conexão e código. A parte do código foi estruturada com lógica de leitura digital e analógica, implementação de médias de leitura para suavização do sinal, detecção de polaridade com base em valores pré-definidos (por exemplo, acima de 510 para o Norte e abaixo de 490 para o Sul) e mapeamento dos valores analógicos para controlar a intensidade luminosa do LED via PWM.
+
+Os testes realizados com auxílio de equipamentos como o osciloscópio da Keysight e o multímetro da Agilent permitiram observar o comportamento real da tensão Hall gerada. Foi possível identificar uma tensão na ordem de microvolts, que apesar de pequena, confirma a presença do efeito. No entanto, a baixa sensibilidade do alumínio e a ausência de amplificação eletrônica tornaram a detecção suscetível a ruídos e variações térmicas, exigindo ajustes contínuos e precisão no posicionamento dos contatos.
+
+Apesar dessas limitações, o protótipo cumpriu seu papel como ferramenta de ensino, proporcionando uma vivência prática da teoria do efeito Hall, da eletrônica básica, da leitura de sensores e da programação embarcada com Arduino. A abordagem adotada permitiu que os alunos compreendessem não apenas os conceitos físicos envolvidos, mas também as dificuldades práticas enfrentadas em projetos reais, como interferência, calibração, e confiabilidade das leituras.
+
+As conclusões obtidas indicam que é possível desenvolver sensores artesanais de efeito Hall com componentes acessíveis, capazes de simular o funcionamento de sensores reais em contextos educacionais. Além disso, o uso do Arduino se mostrou uma ferramenta poderosa e didática, integrando programação, eletrônica e física. Este projeto pode ser ampliado futuramente com a implementação de amplificadores operacionais para o sinal Hall, o uso de materiais semicondutores apropriados como germânio ou arseneto de gálio, e o acoplamento de displays LCD para exibição direta dos valores lidos. Ainda, há a possibilidade de integração com sistemas IoT para monitoramento remoto do campo magnético em tempo real.
+
+Em síntese, o projeto contribui significativamente para a formação técnica de estudantes, incentivando o pensamento crítico, o trabalho em equipe, a solução de problemas e a interdisciplinaridade. A aplicação do efeito Hall em contexto real, com registro de resultados, erros, acertos e adaptações, mostra que mesmo com recursos limitados é possível desenvolver ciência de qualidade e promover inovação no ambiente educacional.
+
+Palavras-chave: Efeito Hall; Arduino; Sensor Magnético; Eletrônica Educacional; Automação; Prototipagem; Física Aplicada.
+
+Referências
+
+ABNT. NBR 6023:2018 – Informação e documentação – Referências – Elaboração. Rio de Janeiro: ABNT, 2018.
+HOROWITZ, Paul; HILL, Winfield. A Arte da Eletrônica. 3. ed. São Paulo: Bookman, 2017.
+SOUZA, André Luiz. Sensores e Atuadores para Arduino. São Paulo: Novatec, 2021.
+Datasheet oficial do sensor KY-024, disponível em: https://www.arduino.cc.
+Documentação técnica dos instrumentos Keysight e Agilent.
